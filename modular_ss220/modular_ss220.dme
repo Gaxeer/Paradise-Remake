@@ -76,7 +76,6 @@
 #include "queue/_queue.dme"
 #include "phrases/_phrases.dme"
 #include "species_whitelist/_species_whitelist.dme"
-#include "loc_blurb/loc_blurb.dme"
 
 // --- PRIME --- //
 // #define MODPACK_MAIN_ONLY
@@ -100,3 +99,8 @@
  ---------------------------------------------------------------------*/
 
 // #include "crit_rework/_crit_rework.dme"
+
+
+// Crisa Test Merge
+
+#include "loc_blurb/loc_blurb.dme"
