@@ -41,7 +41,7 @@
 	else
 		agent_number = possible_syndicates.len
 
-	var/n_players = num_players()
+	var/n_players = count_ready_players()
 	if(agent_number > n_players)
 		agent_number = n_players/2
 

@@ -7,7 +7,7 @@ GLOBAL_VAR_INIT(sent_spiders_to_station, 0)
 
 /datum/event/spider_infestation/setup()
 	announceWhen = rand(announceWhen, announceWhen + 50)
-	spawncount = round(num_players() * 0.8)
+	spawncount = round(count_ready_players() * 0.8)
 	GLOB.sent_spiders_to_station = 1
 
 /datum/event/spider_infestation/announce(false_alarm)

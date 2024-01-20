@@ -78,7 +78,7 @@
 	return TRUE
 
 /datum/game_mode/trifecta/proc/calculate_quantities()
-	var/points = num_players()
+	var/points = count_ready_players()
 	// So. to ensure that we had at least one vamp / changeling / traitor, I set the number of ammount to 1. I never subtracted points, leading to 25 players worth of antags added for free. Whoops.
 	points -= TOT_COST + VAMP_COST + CLING_COST
 	while(points > 0)

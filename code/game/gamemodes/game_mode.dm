@@ -20,7 +20,6 @@
 	var/probability = 0
 	var/station_was_nuked = FALSE //see nuclearbomb.dm and malfunction.dm
 	var/explosion_in_progress = FALSE //sit back and relax
-	var/list/datum/mind/modePlayer = new
 	var/list/restricted_jobs = list()	// Jobs it doesn't make sense to be.  I.E chaplain or AI cultist
 	var/list/secondary_restricted_jobs = list() // Same as above, but for secondary antagonists
 	var/list/protected_jobs = list()	// Jobs that can't be traitors
@@ -50,25 +49,19 @@
 ///can_start()
 ///Checks to see if the game can be setup and ran with the current number of players or whatnot.
 /datum/game_mode/proc/can_start()
-	var/playerC = 0
-	for(var/mob/new_player/player in GLOB.player_list)
-		if((player.client)&&(player.ready))
-			playerC++
-
-	if(!GLOB.configuration.gamemode.enable_gamemode_player_limit || (playerC >= required_players))
-		return 1
-	return 0
+	SHOULD_CALL_PARENT(TRUE)
+	return !GLOB.configuration.gamemode.enable_gamemode_player_limit || (count_ready_players() >= required_players)
 
 //pre_pre_setup() For when you really don't want certain jobs ingame.
 /datum/game_mode/proc/pre_pre_setup()
-
-	return 1
+	SHOULD_CALL_PARENT(FALSE)
+	return TRUE
 
 ///pre_setup()
 ///Attempts to select players for special roles the mode might have.
 /datum/game_mode/proc/pre_setup()
-
-	return 1
+	SHOULD_CALL_PARENT(FALSE)
+	return TRUE
 
 
 ///post_setup()
@@ -83,12 +76,12 @@
 	generate_station_goals()
 	GLOB.start_state = new /datum/station_state()
 	GLOB.start_state.count()
-	return 1
+	return TRUE
 
 ///process()
 ///Called by the gameticker
 /datum/game_mode/process()
-	return 0
+	return FALSE
 
 // I wonder what this could do guessing by the name
 /datum/game_mode/proc/set_mode_in_db()
@@ -102,9 +95,8 @@
 		qdel(query_round_game_mode)
 
 /datum/game_mode/proc/check_finished() //to be called by ticker
-	if((SSshuttle.emergency && SSshuttle.emergency.mode >= SHUTTLE_ENDGAME) || station_was_nuked)
-		return 1
-	return 0
+	SHOULD_CALL_PARENT(TRUE)
+	return station_was_nuked || (SSshuttle.emergency && SSshuttle.emergency.mode >= SHUTTLE_ENDGAME)
 
 /datum/game_mode/proc/cleanup()	//This is called when the round has ended but not the game, if any cleanup would be necessary in that case.
 	return
@@ -257,17 +249,17 @@
 	return 0
 */
 
-/datum/game_mode/proc/num_players()
-	. = 0
-	for(var/mob/new_player/P in GLOB.player_list)
-		if(P.client && P.ready)
-			.++
+/datum/game_mode/proc/count_ready_players()
+	var/ready_players = 0
+	for(var/mob/new_player/tested in GLOB.player_list)
+		if(tested.client && tested.ready)
+			ready_players++
 
-/datum/game_mode/proc/num_players_started()
-	. = 0
-	for(var/mob/living/carbon/human/H in GLOB.player_list)
-		if(H.client)
-			.++
+/datum/game_mode/proc/count_humans_with_client()
+	var/humans_with_client = 0
+	for(var/mob/living/carbon/human/tested as anything in GLOB.human_list)
+		if(tested.client)
+			humans_with_client++
 
 ///////////////////////////////////
 //Keeps track of all living heads//

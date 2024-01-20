@@ -677,7 +677,6 @@
 	w_class = WEIGHT_CLASS_TINY
 	var/uses = 10
 	var/temp = null
-	var/op = 1
 	var/tab = null
 	var/main_tab = null
 	var/mob/living/carbon/human/owner

@@ -106,7 +106,7 @@
 
 	return active_with_role
 
-/datum/event/proc/num_players()
+/datum/event/proc/count_ready_players()
 	var/players = 0
 	for(var/mob/living/carbon/human/P in GLOB.player_list)
 		if(P.client)

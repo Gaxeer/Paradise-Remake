@@ -1643,24 +1643,8 @@
 		special_role = SPECIAL_ROLE_BLOB_OVERMIND
 
 /datum/mind/proc/make_Wizard()
-	if(!(src in SSticker.mode.wizards))
-		SSticker.mode.wizards += src
-		special_role = SPECIAL_ROLE_WIZARD
-		assigned_role = SPECIAL_ROLE_WIZARD
-		//ticker.mode.learn_basic_spells(current)
-		if(!GLOB.wizardstart.len)
-			current.loc = pick(GLOB.latejoin)
-			to_chat(current, "HOT INSERTION, GO GO GO")
-		else
-			current.loc = pick(GLOB.wizardstart)
-
-		SSticker.mode.equip_wizard(current)
-		for(var/obj/item/spellbook/S in current.contents)
-			S.op = 0
-		INVOKE_ASYNC(SSticker.mode, TYPE_PROC_REF(/datum/game_mode/wizard, name_wizard), current)
-		SSticker.mode.forge_wizard_objectives(src)
-		SSticker.mode.greet_wizard(src)
-		SSticker.mode.update_wiz_icons_added(src)
+	if(!has_antag_datum(/datum/antagonist/wizard))
+		add_antag_datum(/datum/antagonist/wizard)
 
 /datum/mind/proc/make_Abductor()
 	var/role = alert("Abductor Role ?","Role","Agent","Scientist")

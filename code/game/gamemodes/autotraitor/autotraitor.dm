@@ -40,7 +40,7 @@
 		log_game("Number of traitors: [num_traitors]")
 		message_admins("Players counted: [num_players]  Number of traitors chosen: [num_traitors]")
 	else
-		num_traitors = max(1, min(num_players(), traitors_possible))
+		num_traitors = max(1, min(count_ready_players(), traitors_possible))
 
 
 	for(var/i = 0, i < num_traitors, i++)

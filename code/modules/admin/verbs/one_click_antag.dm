@@ -147,7 +147,7 @@
 		candidates -= selected
 
 		var/mob/living/carbon/human/new_character = makeBody(selected)
-		new_character.mind.make_Wizard()
+		new_character.mind.add_antag_datum()
 		dust_if_respawnable(selected)
 		return 1
 	return 0

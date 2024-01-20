@@ -275,7 +275,7 @@
 	flickering = FALSE
 
 /**
- *  Build src.produdct_records from the products lists
+ *  Build src.product_records from the products lists
  *
  *  src.products, src.contraband, src.premium, and src.prices allow specifying
  *  products that the vending machine is to carry without manually populating

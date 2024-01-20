@@ -29,7 +29,7 @@
 	if(!possible_abductors.len)
 		return 0
 
-	abductor_teams = max(1, min(max_teams,round(num_players()/15)))
+	abductor_teams = max(1, min(max_teams,round(count_ready_players()/15)))
 	var/possible_teams = max(1,round(possible_abductors.len / 2))
 	abductor_teams = min(abductor_teams,possible_teams)
 

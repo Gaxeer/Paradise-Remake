@@ -5,6 +5,7 @@
 	special_role = SPECIAL_ROLE_CHANGELING
 	antag_hud_name = "hudchangeling"
 	antag_hud_type = ANTAG_HUD_CHANGELING
+	greet_sound_path = 'sound/ambience/antag/ling_alert.ogg'
 	clown_gain_text = "You have evolved beyond your clownish nature, allowing you to wield weapons without harming yourself."
 	clown_removal_text = "As your changeling nature fades, you return to your own clumsy, clownish self."
 	wiki_page_name = "Changeling"
@@ -57,8 +58,14 @@
 	if(!length(purchaseable_powers))
 		purchaseable_powers = get_powers_of_type(CHANGELING_PURCHASABLE_POWER)
 
+/datum/antagonist/changeling/Destroy()
+	chosen_sting = null
+	QDEL_LIST_CONTENTS(acquired_powers)
+	STOP_PROCESSING(SSobj, src)
+	return ..()
+
 /datum/antagonist/changeling/on_gain()
-	SSticker.mode.changelings |= owner
+	 |= owner
 	var/honorific = owner.current.gender == FEMALE ? "Ms." : "Mr."
 	if(length(GLOB.possible_changeling_IDs))
 		changelingID = pick(GLOB.possible_changeling_IDs)
@@ -76,16 +83,14 @@
 	protected_dna += H.dna.Clone()
 	..()
 
-/datum/antagonist/changeling/Destroy()
+/datum/antagonist/wizard/add_owner_to_gamemode()
+	SSticker.mode.changelings |= owner
+
+/datum/antagonist/wizard/remove_owner_from_gamemode()
 	SSticker.mode.changelings -= owner
-	chosen_sting = null
-	QDEL_LIST_CONTENTS(acquired_powers)
-	STOP_PROCESSING(SSobj, src)
-	return ..()
 
 /datum/antagonist/changeling/greet()
 	. = ..()
-	SEND_SOUND(owner.current, sound('sound/ambience/antag/ling_alert.ogg'))
 	return . += "<span class='danger'>Remember: you get all of their absorbed DNA if you absorb a fellow changeling.</span>"
 
 /datum/antagonist/changeling/farewell()
@@ -157,7 +162,7 @@
 		add_antag_objective(/datum/objective/debrain)
 
 	var/list/active_ais = active_ais()
-	if(length(active_ais) && prob(4)) // Leaving this at a flat chance for now, problems with the num_players() proc due to latejoin antags.
+	if(length(active_ais) && prob(4)) // Leaving this at a flat chance for now, problems with the count_ready_players() proc due to latejoin antags.
 		add_antag_objective(/datum/objective/destroy)
 	else
 		var/datum/objective/assassinate/kill_objective = add_antag_objective(/datum/objective/assassinate)

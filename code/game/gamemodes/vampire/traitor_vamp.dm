@@ -22,7 +22,7 @@
 		restricted_jobs += protected_jobs
 
 	var/list/datum/mind/possible_vampires = get_players_for_role(ROLE_VAMPIRE)
-	secondary_enemies = CEILING((secondary_enemies_scaling * num_players()), 1)
+	secondary_enemies = CEILING((secondary_enemies_scaling * count_ready_players()), 1)
 
 	for(var/mob/new_player/player in GLOB.player_list)
 		if((player.mind in possible_vampires) && (player.client.prefs.active_character.species in secondary_protected_species))

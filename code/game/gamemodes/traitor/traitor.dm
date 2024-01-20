@@ -42,9 +42,9 @@
 	var/num_traitors = 1
 
 	if(GLOB.configuration.gamemode.traitor_scaling)
-		num_traitors = max(1, round((num_players())/(traitor_scaling_coeff)))
+		num_traitors = max(1, round((count_ready_players())/(traitor_scaling_coeff)))
 	else
-		num_traitors = max(1, min(num_players(), traitors_possible))
+		num_traitors = max(1, min(count_ready_players(), traitors_possible))
 
 	for(var/i in 1 to num_traitors)
 		if(!length(possible_traitors))
